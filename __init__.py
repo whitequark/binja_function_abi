@@ -13,7 +13,7 @@ def get_function_defined_or_referred_at(view, addr):
             if referee is not None:
                 return referee
 
-def change_abi(view, addr):
+def abi_dialog(view, addr):
     func = get_function_defined_or_referred_at(view, addr)
 
     def show_error(text):
@@ -51,5 +51,5 @@ def has_function_at(view, addr):
     return get_function_defined_or_referred_at(view, addr) is not None
 
 bn.PluginCommand.register_for_address(
-    'Change ABI...', 'Change ABI of this function.', change_abi, has_function_at
+    'Function ABI...', 'View or change detailed ABI of this function.', abi_dialog, has_function_at
 )
