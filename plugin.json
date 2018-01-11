@@ -1,0 +1,14 @@
+{
+  "plugin": {
+    "name": "function_abi",
+    "version": "0.1",
+    "author": "whitequark",
+    "type": ["ui"],
+    "api": "python2",
+    "description": "A plugin that adds a GUI for changing function ABI.",
+    "longdescription": "This plugin provides a GUI for adjusting the ABI in a fine-grained way. Calling convention and clobbered registers can be adjusted.",
+    "license": {
+      "name": "BSD-0-clause"
+    }
+  }
+}
