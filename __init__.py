@@ -22,14 +22,31 @@ def abi_dialog(view, addr):
     arch = view.platform.arch
     cconvs = view.platform.calling_conventions
     cconv_names = map(lambda x: x.name, cconvs)
+    cconv = func.calling_convention
+    clobbers = set(func.clobbered_regs)
+    cconv_clobbers = set([cconv.int_return_reg] + cconv.int_arg_regs + cconv.caller_saved_regs)
+    add_clobbers = clobbers.difference(cconv_clobbers)
+    remove_clobbers = cconv_clobbers.difference(clobbers)
 
     cconv_field = bni.ChoiceField("Calling convention", cconv_names)
-    cconv_field.result = cconvs.index(func.calling_convention)
+    cconv_field.result = cconvs.index(cconv)
+    cconv_current_field = "(current: {})".format(cconv)
 
     add_clobber_field = bni.TextLineField("Additional clobbers")
-    remove_clobber_field = bni.TextLineField("Exclude clobbers")
+    add_clobber_field.result = " ".join(list(map(str, add_clobbers)))
+    add_clobber_current_field = "(current: {})".format(add_clobber_field.result)
 
-    fields = [cconv_field, add_clobber_field, remove_clobber_field]
+    remove_clobber_field = bni.TextLineField("Excluded clobbers")
+    remove_clobber_field.result = " ".join(list(map(str, remove_clobbers)))
+    remove_clobber_current_field = "(current: {})".format(remove_clobber_field.result)
+
+    fields = [
+        "Note: it's not currently possible to pre-fill the fields,",
+        "so please manually set the ones you don't want to change to current values",
+        cconv_field, cconv_current_field,
+        add_clobber_field, add_clobber_current_field,
+        remove_clobber_field, remove_clobber_current_field
+    ]
     if bni.get_form_input(fields, "Function ABI"):
         cconv = cconvs[cconv_field.result]
 
