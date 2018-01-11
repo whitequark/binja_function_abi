@@ -7,7 +7,7 @@ def get_function_defined_or_referred_at(view, addr):
     if func is not None:
         return func
 
-    for func in view.get_functions_containing(addr):
+    for func in view.get_functions_containing(addr) or []:
         for const in func.get_constants_referenced_by(addr):
             referee = view.get_function_at(const.value)
             if referee is not None:
