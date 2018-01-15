@@ -4,7 +4,7 @@ import binaryninja.interaction as bni
 
 def get_function_defined_or_referred_at(view, addr):
     # https://github.com/Vector35/binaryninja-api/issues/916
-    if view.plat is None:
+    if view.platform is None:
         return None
 
     func = view.get_function_at(addr)
