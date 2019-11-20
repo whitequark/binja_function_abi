@@ -25,7 +25,7 @@ def abi_dialog(view, addr):
 
     arch = view.platform.arch
     cconvs = view.platform.calling_conventions
-    cconv_names = map(lambda x: x.name, cconvs)
+    cconv_names = list(map(lambda x: x.name, cconvs))
     cconv = func.calling_convention
     clobbers = set(func.clobbered_regs)
     cconv_clobbers = set([cconv.int_return_reg] + cconv.int_arg_regs + cconv.caller_saved_regs)
